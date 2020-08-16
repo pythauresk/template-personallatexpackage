@@ -1,0 +1,183 @@
+%Version LateX du package-----------------------------------------------
+%-----------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}[1999/01/01] %LateX2e avec MikteX 2.9
+\ProvidesPackage{packageAR}[2019/05/31 Package Antoine Rodriguez v1.2]
+
+%---------------------------------------------------------
+%--------Package options---------------
+%---------------------------------------------------------
+	% ?? to illustrate
+
+%initializing : \newif\if@option\@optionfalse where "option" is the option name
+
+\newif\if@optA\@optA 
+
+%déclaration des options
+
+\DeclareOption{thmfr}{\@thmfrtrue} %they will be defined later
+
+%"Mise en service" des options------------------------------------------
+%-----------------------------------------------------------------------
+\ProcessOptions %obligatoire après la déclaration de toutes options
+%\ProcessUnusedOptions %décommenté si besoin (problemes d'options inutilisées)
+
+%---------------------------------------------------------
+%-------------------List of package wanted/required -----------------------
+%---------------------------------------------------------
+
+%packages bibtex :
+\RequirePackage{natbib} %/!\avant babel
+	%permet avec "\bibliographystyle{plainnat-fr}" d'avoir des "et" à la place de "and"
+	%"\setcitestyle{numbers}" permet de mettre l'affichage "classique" avec des nombres entre crochets
+%Packages mathématiques :
+\RequirePackage{mathtools}
+\RequirePackage{mathrsfs}
+\RequirePackage{amsthm,amsmath,amsfonts,amssymb} %amsthm : environnement thm
+
+%packages écritures :
+\RequirePackage[cyr]{aeguill}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+
+%packages misc :
+\RequirePackage{verbatim} %environnement de code
+\RequirePackage{comment} %paragraphe de commentaires
+\RequirePackage{url} %url dans la bibliothèque
+\RequirePackage{xcolor} %autre gamme de couleur
+\RequirePackage{float} %permet de forcer les figures avec [H]
+\RequirePackage{xspace} %meilleur gestion des espaces
+\RequirePackage{bm}
+\RequirePackage{hyperref}
+\RequirePackage{graphicx} % pour inserer des figures
+\RequirePackage{subfigure} 
+	%package pour les sous figures
+	%http://texdoc.net/texmf-dist/doc/latex/subfig/subfig.pdf
+\RequirePackage{subfiles}
+\RequirePackage{framed}% package pour faire des box
+\RequirePackage{enumitem}% permet entre autre d'ajouter des puces au itemize
+\RequirePackage{dsfont}
+
+%packages à configurer dans le document-------------------
+
+\if@beam\else \RequirePackage[explicit]{titlesec}\fi % /!\ INCOMPATIBLE BEAM
+        % https://www.overleaf.com/learn/latex/Sections_and_chapters 
+        %//Customize chapters and sections /!\mettre explicit simplifie 
+\RequirePackage{import}
+    % package pour figures par exemple (\includefrom{}{})
+    % voir : http://blog.dorian-depriester.fr/latex/gestion-des-gros-documents-sous-latex
+%packages beamer -----------------------------------------
+\if@beam\RequirePackage{transparent}\fi
+
+%---------------------------------------------------------
+%-------------Définition de commandes---------------------
+%---------------------------------------------------------
+
+%avec les commandes LateX de base----
+%-----------déclaration d'espace, opérateur, etc
+
+\newcommand\NN{\mathbb{N}}\newcommand\RR{\mathbb{R}}
+\newcommand\ZZ{\mathbb{Z}}\newcommand\CC{\mathbb{C}}
+\newcommand\PP{\mathds{P}} %polyômes / éléments finis 
+
+\newcommand\cont{\mathit{C}} %fonctions "continues" 
+
+\newcommand\dd{\mathrm{d}}  %d différentiel
+\newcommand\1{\mathds{1}} %indicatrice
+
+\newcommand\fou{\mathscr{F}} %transformée de Fourier %package : mathrsfs
+\newcommand\re{\mathrm{Re}} %partie réelle
+\newcommand\im{\mathrm{Im}} %partie imaginaire
+
+\newcommand\eps{\varepsilon} %un BEAUCOUP plus joli epsilon
+\DeclareMathOperator{\e}{e} %e de l'exponentielle
+\DeclareMathOperator{\sinc}{sinc} % sinus cardinal
+\DeclareMathOperator{\sgn}{sgn}%fonction signe
+
+%-----------------macros
+
+%macro Alain Kessi pour les \hline plus épais
+\def\hlinewd#1{%
+\noalign{\ifnum0=`}\fi\hrule \@height #1 %
+\futurelet\reserved@a\@xhline}
+
+%-----------------opérateur de dérivation
+
+	%notice : pour utiliser \newcommand*\commande[n]{[...]} il faut exécuter dans le
+	% tex.  \commande{#1}{#2}...{#n} où #k sont les caractères voulus
+
+%avec les commandes de mathtools
+%-------------------encadrements
+\DeclarePairedDelimiter{\pth}{(}{)} 
+	%encadrement par des parenthèses 
+	%N.B. : \pth*{} adapte la taille au contenu (pareil pour les suivants)
+\DeclarePairedDelimiter{\cht}{[}{]} %encadrement par des crochets
+\DeclarePairedDelimiter\abs{|}{|}%valeurs absolues
+\DeclarePairedDelimiter\norm{\|}{\|}%normes
+\DeclarePairedDelimiter\sca{\langle}{\rangle}%crochet produit scalaire
+\DeclarePairedDelimiter\acco{\{}{\}}%accolades
+
+%---------------------------------------------------------
+%--------Définition des options du package----------------
+%---------------------------------------------------------
+
+%(!) définition des options thmfr et thmen intialisées au début
+
+%avec les commandes de amsthm
+%Définitions différents environnement théorème en fonction de la langue
+
+	% note : \newtheorem{raccourci}{Nom}[type] et utilise comme :
+	% \begin{raccourci} blabla \end{raccourci}
+\if@thmfr%français
+	\theoremstyle{plain} %environnement-------------- 
+	\newtheorem{T}{Théorème}[section]
+	\newtheorem{DPtion}{Définition/Proposition}[section]
+	\newtheorem{Ption}{Proposition}[section]
+	\newtheorem{Ptions}{Propositions}[section]
+	\newtheorem{Lm}{Lemme}[section]
+	\newtheorem{C}{Corollaire}[section]
+	
+	\theoremstyle{definition} %environnement---------
+	\newtheorem{D}{Définition}[section]
+	\newtheorem{Ds}{Définitions}[section]
+	\newtheorem{Pté}{Propriété}[section]
+	\newtheorem{Ptés}{Propriétés}[section]
+	\newtheorem{Rmq}{Remarque}[section]
+	\newtheorem{Rmqs}{Remarques}[section]
+	\newtheorem{Ex}{Exemple}[section]
+	\newtheorem{Exs}{Exemple}[section]
+	
+	%nouveau environnement démonstration théorème
+	\newenvironment{proofT}{
+    {\noindent \it Démonstration.} }
+    { \hfill $\blacksquare$ \\}
+\fi
+
+\if@thmen%anglais
+	\theoremstyle{plain} %environnement--------------	
+	\newtheorem{T}{Theorem}[section]
+	\newtheorem{DPtion}{Definition/Proposition}[section]
+	\newtheorem{Ption}{Proposition}[section]
+	\newtheorem{Ptions}{Propositions}[section]
+	\newtheorem{Lm}{Lemma}[section]
+	\newtheorem{C}{Corollary}[section]
+	
+	
+	\theoremstyle{definition} %environnement---------	
+	\newtheorem{D}{Definition}[section]
+	\newtheorem{Ds}{Definitions}[section]
+	\newtheorem{Pté}{Property}[section]
+	\newtheorem{Ptés}{Properties}[section]
+	\newtheorem{Rmq}{Remark}[section]
+	\newtheorem{Rmqs}{Remarks}[section]
+	\newtheorem{Ex}{Example}[section]
+	\newtheorem{Exs}{Example}[section]
+	
+	%nouveau environnement démonstration théorème
+	\newenvironment{proofT}{
+    {\noindent \it Proof.} }
+    { \hfill $\blacksquare$ \\}
+\fi
+
+	%notes :
+	%restriction à # : _{|_#}
+\endinput
