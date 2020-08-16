@@ -1,3 +1,3 @@
-# Template for personnal package in LateX
+# Template for personal package in LateX
 
 ** work in progress **
