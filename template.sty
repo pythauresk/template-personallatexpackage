@@ -1,30 +1,20 @@
 %Version LateX du package-----------------------------------------------
 %-----------------------------------------------------------------------
-
 \NeedsTeXFormat{LaTeX2e}[1999/01/01] %LateX2e avec MikteX 2.9
-\ProvidesPackage{packageAR}[2022/08/14 Package Antoine Rodriguez v1.3]
-
-%2022 28 01
+\ProvidesPackage{packageAR}[2019/05/31 Package Antoine Rodriguez v1.2]
 
 %---------------------------------------------------------
-%--------Déclaration des options du package---------------
+%--------Package options---------------
 %---------------------------------------------------------
-	% déclaration et définition (à la fin) d'options de langue et 
-	%environnements "Théorème"
+	% ?? to illustrate
 
-%initialisation : \newif\if@option\@optionfalse où "option" est le nom de l'option
+%initializing : \newif\if@option\@optionfalse where "option" is the option name
 
-\newif\if@thmfr\@thmfrfalse 
-\newif\if@thmen\@thmenfalse
-\newif\if@beam\@beamfalse
-\newif\if@exercises\@exercisesfalse
+\newif\if@optA\@optA 
 
 %déclaration des options
 
-\DeclareOption{thmfr}{\@thmfrtrue} %seront définies plus loin
-\DeclareOption{thmen}{\@thmentrue}
-\DeclareOption{beam}{\@beamtrue}
-\DeclareOption{exercises}{\@exercisestrue}
+\DeclareOption{thmfr}{\@thmfrtrue} %they will be defined later
 
 %"Mise en service" des options------------------------------------------
 %-----------------------------------------------------------------------
@@ -32,7 +22,7 @@
 %\ProcessUnusedOptions %décommenté si besoin (problemes d'options inutilisées)
 
 %---------------------------------------------------------
-%-------------------Packages requis-----------------------
+%-------------------List of package wanted/required -----------------------
 %---------------------------------------------------------
 
 %packages bibtex :
@@ -43,7 +33,6 @@
 \RequirePackage{mathtools}
 \RequirePackage{mathrsfs}
 \RequirePackage{amsthm,amsmath,amsfonts,amssymb} %amsthm : environnement thm
-\RequirePackage{envmath}
 
 %packages écritures :
 \RequirePackage[cyr]{aeguill}
@@ -52,7 +41,6 @@
 
 %packages misc :
 \RequirePackage{verbatim} %environnement de code
-\RequirePackage{setspace} %espaces interlignes https://faq.gutenberg.eu.org/3_composition/texte/paragraphes/modifier_l_interligne
 \RequirePackage{comment} %paragraphe de commentaires
 \RequirePackage{url} %url dans la bibliothèque
 \RequirePackage{xcolor} %autre gamme de couleur
@@ -146,7 +134,7 @@
 	\newtheorem{Ption}{Proposition}[section]
 	\newtheorem{Ptions}{Propositions}[section]
 	\newtheorem{Lm}{Lemme}[section]
-	\newtheorem{Cor}{Corollaire}[section]
+	\newtheorem{C}{Corollaire}[section]
 	
 	\theoremstyle{definition} %environnement---------
 	\newtheorem{D}{Définition}[section]
@@ -171,7 +159,7 @@
 	\newtheorem{Ption}{Proposition}[section]
 	\newtheorem{Ptions}{Propositions}[section]
 	\newtheorem{Lm}{Lemma}[section]
-	\newtheorem{Cor}{Corollary}[section]
+	\newtheorem{C}{Corollary}[section]
 	
 	
 	\theoremstyle{definition} %environnement---------	
@@ -188,11 +176,6 @@
 	\newenvironment{proofT}{
     {\noindent \it Proof.} }
     { \hfill $\blacksquare$ \\}
-\fi
-
-\if@exercises
-	\theoremstyle{plain} %environnement--------------	
-	\newtheorem*{exercise}{Exercice}
 \fi
 
 	%notes :
